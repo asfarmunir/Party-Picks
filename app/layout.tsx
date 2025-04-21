@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "react-hot-toast";
+import localFont from "next/font/local";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+export const myLocalFont = localFont({
+  src: [
+    {
+      path: "./font/new_science.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./font/new_science_bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-local",
 });
 
 export const metadata: Metadata = {
@@ -23,11 +32,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${myLocalFont.variable} antialiased`}>
+        <NextThemesProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextTopLoader
+            color="blue"
+            initialPosition={0.08}
+            crawlSpeed={200}
+            height={2}
+            showSpinner={false}
+            crawl={true}
+            easing="ease"
+            speed={200}
+            shadow="0 0 5px #2299DD,0 0 5px #2299DD"
+          />
+          {children}
+          <Toaster position="top-center" />
+        </NextThemesProvider>{" "}
       </body>
     </html>
   );
