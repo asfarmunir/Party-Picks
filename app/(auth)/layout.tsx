@@ -9,7 +9,7 @@ const Layout = ({
 }>) => {
   return (
     <div>
-      <div className=" absolute flex items-center justify-between w-full p-4">
+      <div className=" absolute flex items-center  justify-between w-full p-4">
         <Image src="/images/logo.svg" alt="hero" width={100} height={100} />
         <ThemeToggle />
       </div>

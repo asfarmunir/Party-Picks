@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
+import MobileSettingsDrawer from "./MobileSettingsDrawer";
 
 const tabLinks = [
   { name: "Sports", path: "/", icon: "/images/sports.svg" },
@@ -17,7 +18,7 @@ const Tabbar = () => {
   return (
     <div
       className={`
-    w-full  px-2  relative  rounded-2xl flex items-center justify-between
+    w-full  px-2  relative z-10    rounded-2xl flex  items-center justify-between
      
   `}
     >
@@ -26,6 +27,7 @@ const Tabbar = () => {
         alt="Logo"
         width={30}
         height={30}
+        priority
         className=" absolute dark:hidden  bottom-0 -z-10 w-full left-0 "
       />
       <Image
@@ -33,6 +35,7 @@ const Tabbar = () => {
         alt="Logo"
         width={30}
         height={30}
+        priority
         className=" absolute hidden dark:block  bottom-0 -z-10 w-full left-0 "
       />
       {tabLinks.map((link, index) => {
@@ -47,6 +50,7 @@ const Tabbar = () => {
                 <Image
                   src={"/images/rocket.svg"}
                   alt="Logo"
+                  priority
                   height={40}
                   width={40}
                   className={` dark:invert mb-2`}
@@ -66,10 +70,14 @@ const Tabbar = () => {
                 alt="Active indicator"
                 width={50}
                 height={30}
+                priority
                 className={`mx-auto  ${pathname === "/" ? "" : "opacity-0"}`}
               />
             </Link>
           );
+        }
+        if (index === 3) {
+          return <MobileSettingsDrawer key={index} link={link} index={index} />;
         }
         return (
           <Link
@@ -82,6 +90,7 @@ const Tabbar = () => {
               alt="Logo"
               width={index === 1 ? 20 : 28} // Larger width for index 1
               height={30}
+              priority
               className={`mx-auto dark:invert ${
                 index === 1 ? "w-[19px] mb-2" : "w-[23px] mb-1.5 "
               }`}

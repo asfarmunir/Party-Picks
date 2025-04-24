@@ -59,26 +59,28 @@ const Sidebar = () => {
           hidden md:flex items-center justify-between  gap-7 2xl:gap-10 p-3 md:p-4 2xl:p-6`}
       >
         <div className="flex items-center  gap-12">
-          <div className="relative w-[120px] ">
-            {/* Light mode image */}
-            <Image
-              src="/images/logo-dark.svg"
-              alt="logo"
-              width={120}
-              height={120}
-              className="block dark:hidden "
-              priority
-            />
-            {/* Dark mode image */}
-            <Image
-              src="/images/logo.svg"
-              alt="logo"
-              width={120}
-              height={120}
-              className="hidden dark:block "
-              priority
-            />
-          </div>
+          <Link href={"/"}>
+            <div className="relative w-[120px] ">
+              {/* Light mode image */}
+              <Image
+                src="/images/logo-dark.svg"
+                alt="logo"
+                width={120}
+                height={120}
+                className="block dark:hidden "
+                priority
+              />
+              {/* Dark mode image */}
+              <Image
+                src="/images/logo.svg"
+                alt="logo"
+                width={120}
+                height={120}
+                className="hidden dark:block "
+                priority
+              />
+            </div>
+          </Link>
 
           <div className="hidden md:flex  gap-1.5">
             {navlinks.map((link, index) => (
