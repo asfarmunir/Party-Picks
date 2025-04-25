@@ -150,8 +150,13 @@ const Sidebar = () => {
               </button>
             </DropdownMenuContent>
           </DropdownMenu> */}
-
-          <Link href={"/settings"} className="bg-card p-0.5 rounded-full">
+          <Link
+            href={"/my-challenges"}
+            className="gradient-bg px-4 font-semibold border-b-4 border-orange-200 text-sm rounded-full py-3 "
+          >
+            My Challenges
+          </Link>
+          <Link href={"/my-account"} className="bg-card p-0.5 rounded-full">
             <Image
               src={"/images/user.svg"}
               alt="Settings"

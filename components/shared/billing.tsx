@@ -86,7 +86,7 @@ export default function Billing() {
   };
 
   return (
-    <div className="bg-card p-6 rounded-[20px] shadow">
+    <div className="bg-card p-4 md:p-6 rounded-[20px] shadow">
       {view === "billing" ? (
         <>
           <div className="flex justify-between items-center mb-6">
@@ -155,7 +155,7 @@ export default function Billing() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="">
-                  <tr className="text-center bg-card text-sm text-gray-500 border-b border-gray-200 dark:border-slate-700">
+                  <tr className="text-center bg-card text-xs xl:text-sm text-gray-500 border-b border-gray-200 dark:border-slate-700">
                     <th className="pb-2 pt-5">Date</th>
                     <th className="pb-2 pt-5">Type</th>
                     <th className="pb-2 pt-5">Amount</th>
@@ -166,7 +166,7 @@ export default function Billing() {
                   {transactions.map((transaction, index) => (
                     <tr
                       key={index}
-                      className="border-b bg-card text-center border-gray-200 dark:border-slate-700"
+                      className="border-b bg-card text-xs 2xl:text-sm text-center border-gray-200 dark:border-slate-700"
                     >
                       <td className="py-3">{transaction.date}</td>
                       <td>{transaction.type}</td>

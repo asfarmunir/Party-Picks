@@ -1,23 +1,28 @@
 import { ThemeToggle } from "@/components/shared/ToggleTheme";
-import Image from "next/image";
-import React from "react";
 import Navbar from "@/components/shared/Navbar";
 import Tabbar from "@/components/shared/Tabbar";
 
-const Layout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="relative min-h-svh bg-background   ">
+    <div className="relative flex flex-col h-svh">
+      {/* Navbar at top */}
       <Navbar />
-      <div className="absolute left-4  top-4">
+
+      {/* Theme toggle */}
+      <div className="absolute left-4 top-4 z-10">
         <ThemeToggle />
       </div>
-      {children}
-      <div className="   absolute bottom-3.5   md:hidden  w-[95%] ml-2.5 ">
-        <Tabbar />
+
+      {/* Scrollable content */}
+      <main className="flex-1 pb-[100px] md:pb-0 overflow-y-auto">
+        {children}
+      </main>
+
+      {/* Fixed tabbar - mobile only */}
+      <div className="fixed bottom-2 w-full md:hidden  z-50">
+        <div className="w-[95%] mx-auto ">
+          <Tabbar />
+        </div>
       </div>
     </div>
   );

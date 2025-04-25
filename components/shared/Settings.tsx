@@ -133,7 +133,7 @@ export default function Settings() {
   };
   return (
     <div className="max-w-6xl bg-card-foreground mt-6 mb-12 rounded-[24px] mx-auto p-4 md:p-6">
-      <h1 className="text-3xl tracking-tighter font-bold mb-6">SETTINGS</h1>
+      <h1 className="text-3xl font-anton mb-6">SETTINGS</h1>
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar Menu */}

@@ -8,7 +8,7 @@ import MobileSettingsDrawer from "./MobileSettingsDrawer";
 const tabLinks = [
   { name: "Sports", path: "/", icon: "/images/sports.svg" },
   { name: "Shop", path: "/shop", icon: "/images/shop.svg" },
-  { name: "Account", path: "/account", icon: "/images/user.svg" },
+  { name: "Account", path: "/my-account", icon: "/images/user.svg" },
   { name: "Account", path: "/account", icon: "/images/user.svg" },
   { name: "Help", path: "/", icon: "/images/help.svg" },
 ];

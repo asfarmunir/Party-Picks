@@ -15,6 +15,8 @@ import { IoClose } from "react-icons/io5";
 import { useState } from "react";
 import PersonalInfo from "./PersonalInfo";
 import PasswordUpate from "./PasswordUpdate";
+import Billing from "./billing";
+import TwoFactorAuth from "./TwoFA";
 const menuItems = [
   {
     name: "How to play",
@@ -257,6 +259,8 @@ export default function MobileSettingsDrawer(
           )}
           {activeTab === "Personal Info" && <PersonalInfo />}
           {activeTab === "Password" && <PasswordUpate />}
+          {activeTab === "Billing" && <Billing />}
+          {activeTab === "2-Factor Authentication" && <TwoFactorAuth />}
         </div>
       </DrawerContent>
     </Drawer>
