@@ -41,7 +41,7 @@ const Sidebar = () => {
     },
     {
       title: "Play",
-      link: "/paly",
+      link: "/play",
       icon: "/images/play.svg",
     },
     {

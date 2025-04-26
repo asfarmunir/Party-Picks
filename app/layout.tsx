@@ -50,7 +50,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <NextTopLoader
-            color="blue"
+            color="orange"
             initialPosition={0.08}
             crawlSpeed={200}
             height={2}
