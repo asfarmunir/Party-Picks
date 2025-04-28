@@ -71,7 +71,9 @@ const Tabbar = () => {
                 width={50}
                 height={30}
                 priority
-                className={`mx-auto  ${pathname === "/" ? "" : "opacity-0"}`}
+                className={`mx-auto  ${
+                  pathname === "/play" ? "" : "opacity-0"
+                }`}
               />
             </Link>
           );

@@ -26,6 +26,7 @@ export function ThemeToggle() {
     <Button
       variant="outline"
       size="icon"
+      className=" bg-card-foreground"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       {theme === "light" ? (

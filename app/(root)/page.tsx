@@ -1,5 +1,6 @@
 "use client";
 
+import { CTAs } from "@/components/shared/Navbar";
 import Image from "next/image";
 import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
@@ -44,6 +45,8 @@ export default function Sports() {
 
   return (
     <div className="max-w-6xl bg-card-foreground mt-6 mb-12 rounded-[24px] mx-auto p-4 md:p-6">
+      <CTAs />
+
       <div className="flex flex-col  gap-6">
         {/* Sidebar Menu */}
         <div className=" flex-shrink-0">

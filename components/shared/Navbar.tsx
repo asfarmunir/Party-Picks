@@ -56,7 +56,7 @@ const Sidebar = () => {
       <nav
         className={`relative bg-white dark:bg-[#0B0C1E] w-full  transition-all duration-300 
  
-          hidden md:flex items-center justify-between  gap-7 2xl:gap-10 p-3 md:p-4 2xl:p-6`}
+          hidden md:flex items-center justify-between  gap-7 2xl:gap-10 p-3 md:p-4 2xl:px-6`}
       >
         <div className="flex items-center  gap-12">
           <Link href={"/"}>
@@ -150,12 +150,7 @@ const Sidebar = () => {
               </button>
             </DropdownMenuContent>
           </DropdownMenu> */}
-          <Link
-            href={"/my-challenges"}
-            className="gradient-bg px-4 font-semibold border-b-4 border-orange-200 text-sm rounded-full py-3 "
-          >
-            My Challenges
-          </Link>
+          <CTAs />
           <Link href={"/my-account"} className="bg-card p-0.5 rounded-full">
             <Image
               src={"/images/user.svg"}
@@ -324,3 +319,60 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+export const CTAs = () => {
+  const [activeCurrency, setActiveCurrency] = useState("partycoins");
+
+  const toggleCurrency = () => {
+    setActiveCurrency((prev) =>
+      prev === "partycoins" ? "partybucks" : "partycoins"
+    );
+  };
+  return (
+    <div className="flex items-center gap-4 md:gap-6 justify-between mb-8 md:mb-0">
+      <Link
+        href={"/my-challenges"}
+        className="gradient-bg px-4 xl:px-5 text-black font-semibold border-b-2 2xl:border-b-4 border-orange-200 dark:border-orange-200/50 text-sm rounded-full py-2 2xl:py-3.5 "
+      >
+        My Challenges
+      </Link>
+      <div className="md:bg-card rounded-full md:py-2  md:px-5 flex items-center gap-3">
+        <div className="text-end">
+          <p className="text-xs">Your wallet</p>
+          <h2 className="text-sm xl:text-base font-anton uppercase">
+            0.00 {activeCurrency === "partycoins" ? "Partycoins" : "PartyBucks"}
+          </h2>
+        </div>
+        <div className="flex items-center">
+          <button
+            type="button"
+            className={`relative inline-flex h-8 w-[4.1rem] items-center rounded-full border-2 transition-colors duration-300 focus:outline-none ${
+              activeCurrency === "partycoins"
+                ? "border-[#1212121A] dark:border-[#0E83A4] bg-[#1212121A]"
+                : "border-[#2E963C] bg-[#2E963C1A]"
+            }`}
+            onClick={toggleCurrency}
+          >
+            <span
+              className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300 ${
+                activeCurrency === "partycoins"
+                  ? "translate-x-1"
+                  : "translate-x-9"
+              }`}
+            >
+              <img
+                src={
+                  activeCurrency === "partycoins"
+                    ? "/images/partycoin.svg"
+                    : "/images/partyBuck.svg"
+                }
+                alt={activeCurrency}
+                className="h-full w-full "
+              />
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};

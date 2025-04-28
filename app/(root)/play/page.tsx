@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { motion, AnimatePresence } from "framer-motion";
 import { HowToPlayModal } from "@/components/shared/HowToPlay";
+import StartChallenge from "@/components/shared/StartChallenge";
 
 const challengeData = [
   {
@@ -193,20 +194,19 @@ const ChallengeCard = ({ challenge }: any) => {
             alt="PartyBucks"
             width={400}
             height={400}
+            className="w-[300px]   "
           />
-          <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#F3F3F3] to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t dark:from-[#12152c]  from-[#F3F3F3]  to-transparent"></div>
         </div>
-        <p className="text-sm md:text-base text-center px-3 xl:px-8 border-b border-slate-300 pb-4 font-semibold xl:text-lg">
+        <p className="text-sm md:text-base text-center px-3 xl:px-8 border-b border-slate-300 dark:border-slate-700 pb-4 font-semibold xl:text-lg">
           Win Big Without Being Perfect
         </p>
       </div>
-      <p className="w-full mx-auto gradient-bg mt-5 text-black text-center font-semibold my-3 border-b-4 border-orange-200 rounded-full py-3">
-        Play Now
-      </p>
+      <div className="mt-4">
+        <StartChallenge />
+      </div>
+
       <HowToPlayModal />
-      <p className="w-full bg-[#1212120D] text-center font-semibold mt-1 rounded-full border-2 py-3">
-        How it works
-      </p>
     </div>
   );
 };

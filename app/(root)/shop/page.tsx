@@ -10,6 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
+import { CTAs } from "@/components/shared/Navbar";
 
 const menuItems = [
   {
@@ -37,6 +38,7 @@ const menuItems = [
 export default function Shop() {
   return (
     <div className="max-w-6xl md:bg-card-foreground mt-6 md:mb-6  rounded-[24px] mx-auto p-2 md:p-6">
+      <CTAs />
       <div className=" w-full flex items-center justify-between mb-6">
         <h1 className="text-3xl   font-anton">SHOP</h1>
       </div>
