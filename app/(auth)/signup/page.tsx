@@ -78,41 +78,19 @@ export default function Signup() {
 
   return (
     <>
-      <div
-        className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8"
-        style={{
-          backgroundImage: "url('/images/bg.svg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="mt-auto md:-mt-24 hidden md:flex relative items-center -mb-12 md:mb-0">
-          <Image
-            src="/images/player1.svg"
-            alt="Logo"
-            width={220}
-            height={200}
-            className="mx-auto -mr-4"
-          />
-          <Image
-            src="/images/player2.svg"
-            alt="Logo"
-            width={200}
-            height={200}
-            className="mx-auto -ml-5"
-          />
-          <div className="bg-background hidden shadow-inner shadow-orange-400/60 absolute -bottom-2 w-full px-4 py-3 rounded-[20px] md:flex items-center justify-center">
+      <div className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8 bg-[url('/images/bg.svg')] bg-no-repeat bg-center bg-cover md:bg-none">
+        <div className=" mt-auto md:-mt-24 flex md:hidden relative items-center -mb-12 md:mb-0  ">
+          <div className=" bg-background hidden  shadow-inner shadow-orange-400/60 absolute -bottom-2 w-full px-4 py-3 rounded-[20px] md:flex items-center justify-center">
             <Image
               src="/images/logoIcon.svg"
               alt="Logo"
               width={30}
               height={30}
-              className="mx-auto"
+              className="mx-auto "
             />
           </div>
         </div>
-        <div className="md:h-fit mt-auto md:my-12  z-10 w-full sm:max-w-lg rounded-tr-[20px] rounded-tl-[20px] md:rounded-br-[20px] md:rounded-bl-[20px] bg-background">
+        <div className="md:h-fit mt-auto md:my-12  z-10 w-full  md:bg-card-foreground sm:max-w-lg rounded-tr-[20px] rounded-tl-[20px] md:rounded-br-[20px] md:rounded-bl-[20px] bg-background">
           <div className="py-8 md:py-10 px-4 shadow sm:rounded-lg sm:px-8">
             <h2 className="text-lg text-primary font-semibold mb-2">
               Create Account

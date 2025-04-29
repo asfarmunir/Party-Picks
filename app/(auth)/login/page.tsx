@@ -23,16 +23,8 @@ export default function Login() {
 
   return (
     <>
-      <div
-        className="min-h-screen    flex flex-col md:flex-row justify-center md:gap-20 items-center  sm:px-6 lg:px-8"
-        style={{
-          backgroundImage: "url('/images/bg.svg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className=" mt-auto md:-mt-24 flex relative items-center -mb-12 md:mb-0  ">
+      <div className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8 bg-[url('/images/bg.svg')] bg-no-repeat bg-center bg-cover md:bg-none">
+        <div className=" mt-auto md:-mt-24 flex md:hidden relative items-center -mb-12 md:mb-0  ">
           <Image
             src="/images/player1.svg"
             alt="Logo"
@@ -57,7 +49,7 @@ export default function Login() {
             />
           </div>
         </div>
-        <div className="  md:h-fit z-10 w-full sm:max-w-lg rounded-tr-[20px] rounded-tl-[20px] md:rounded-br-[20px] md:rounded-bl-[20px] bg-background  ">
+        <div className="  md:h-fit z-10 w-full sm:max-w-lg rounded-tr-[20px] md:bg-card-foreground rounded-tl-[20px] md:rounded-br-[20px] md:rounded-bl-[20px] bg-background  ">
           <div className=" py-8 md:py-10 px-4 shadow sm:rounded-lg sm:px-8">
             <h2 className="text-lg text-primary  font-semibold mb-2">
               Welcome
