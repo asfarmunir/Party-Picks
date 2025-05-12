@@ -4,13 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Eye, EyeClosed, Loader } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -18,7 +23,26 @@ export default function Login() {
       return;
     }
 
-    console.log({ email, password, rememberMe });
+    setLoading(true);
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      console.log("signIn response:", res);
+      if (!res?.ok || res?.error) {
+        throw new Error(res?.error || "Login failed");
+      }
+      // Navigation handled by useEffect
+      toast.success("Login successful");
+      router.push("/");
+    } catch (error: any) {
+      console.log("Login error:", error);
+      toast.error(error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -88,17 +112,28 @@ export default function Login() {
                 >
                   Password
                 </label>
-                <div className="mt-1">
+                <div className="mt-1 relative">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="appearance-none block w-full px-3 py-3 border border-gray-300 dark:border-[#FFFFFF1A] dark:bg-[#16172C] rounded-[10px] text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                     placeholder="Password"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  >
+                    {!showPassword ? (
+                      <Eye className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeClosed className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
                 </div>
               </div>
 
@@ -129,10 +164,18 @@ export default function Login() {
 
               <div>
                 <button
+                  disabled={loading}
                   type="submit"
-                  className="w-full  flex justify-center py-4 px-4 border border-transparent rounded-full text-sm font-medium text-black gradient-bg  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                  className="w-full disabled:opacity-80 flex justify-center py-4 px-4 border border-transparent rounded-full text-sm font-medium text-black gradient-bg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 >
-                  Log In
+                  {!loading ? (
+                    <span>Log In</span>
+                  ) : (
+                    <Loader
+                      className="animate-spin h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
               </div>
             </form>

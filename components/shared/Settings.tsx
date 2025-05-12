@@ -9,7 +9,11 @@ import ReferAndEarn from "@/components/shared/ReferAndEarn";
 import TwoFA from "@/components/shared/TwoFA";
 import PersonalInfo from "./PersonalInfo";
 import PasswordUpate from "./PasswordUpdate";
+import { signOut } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 export default function Settings() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("Personal Info");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -131,6 +135,17 @@ export default function Settings() {
       confirmPassword: "",
     });
   };
+
+  const signOutUser = async () => {
+    await signOut({
+      redirect: false,
+      callbackUrl: "/login",
+    });
+    toast.success("Signed out successfully!");
+    router.refresh();
+    router.replace("/login");
+  };
+
   return (
     <div className="max-w-6xl bg-card-foreground mt-6 mb-12 rounded-[24px] mx-auto p-4 md:p-6">
       <h1 className="text-3xl font-anton mb-6">SETTINGS</h1>
@@ -169,6 +184,31 @@ export default function Settings() {
                 </button>
               </li>
             ))}
+            <li>
+              <button
+                onClick={signOutUser}
+                className={`w-full text-left text-primary px-4 py-3 flex border items-center border-[#1212121A] dark:border-slate-700 justify-between rounded-full transition-colors 
+                                  font-medium bg-card`}
+              >
+                <span className="inline-flex items-center gap-2">
+                  <Image
+                    src="/images/logout.svg"
+                    alt={"Settings"}
+                    width={24}
+                    height={24}
+                    className="w-7 2xl:w-9 h-7 2xl:h-9"
+                  />
+                  Logout
+                </span>
+                <Image
+                  src={"/images/back.svg"}
+                  alt={"Settings"}
+                  width={30}
+                  height={30}
+                  className="ml-2 rotate-180 dark:invert"
+                />
+              </button>
+            </li>
           </ul>
         </div>
 

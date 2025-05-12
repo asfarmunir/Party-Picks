@@ -3,12 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Toaster, toast } from "react-hot-toast";
-
+import { toast } from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import axios from "axios";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 export default function Signup() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     username: "",
     email: "",
     password: "",
@@ -16,6 +19,8 @@ export default function Signup() {
     zipCode: "",
     acceptTerms: false,
   });
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -26,11 +31,11 @@ export default function Signup() {
   };
 
   const validateForm = () => {
-    if (!formData.firstName) {
+    if (!formData.firstname) {
       toast.error("First name is required");
       return false;
     }
-    if (!formData.lastName) {
+    if (!formData.lastname) {
       toast.error("Last name is required");
       return false;
     }
@@ -67,12 +72,34 @@ export default function Signup() {
     return true;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle successful signup
-      console.log("Form submitted:", formData);
-      // Add your signup logic here
+      setLoading(true);
+      try {
+        const { email, password } = formData;
+        const response = await axios.post("/api/auth/signup", formData);
+        if (response.status !== 200 || response.data.status !== 200) {
+          throw new Error(response.data.message || "Signup failed");
+        }
+        // Auto-login after signup
+        const logRes = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+        });
+        console.log("Auto-login response:", logRes);
+        if (!logRes?.ok || logRes?.error) {
+          throw new Error(logRes?.error || "Auto-login failed");
+        }
+        toast.success("Account created successfully!");
+        router.push("/");
+      } catch (error: any) {
+        console.log("Signup error:", error);
+        toast.error(error.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -103,16 +130,16 @@ export default function Signup() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
-                    htmlFor="firstName"
+                    htmlFor="firstname"
                     className="block mb-1 text-sm font-medium"
                   >
                     First Name
                   </label>
                   <input
-                    id="firstName"
-                    name="firstName"
+                    id="firstname"
+                    name="firstname"
                     type="text"
-                    value={formData.firstName}
+                    value={formData.firstname}
                     onChange={handleChange}
                     className="appearance-none block w-full px-3 py-3 border border-gray-300 dark:border-[#FFFFFF1A] dark:bg-[#16172C] rounded-[10px] text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                     placeholder="First name"
@@ -120,16 +147,16 @@ export default function Signup() {
                 </div>
                 <div>
                   <label
-                    htmlFor="lastName"
+                    htmlFor="lastname"
                     className="block mb-1 text-sm font-medium"
                   >
                     Last Name
                   </label>
                   <input
-                    id="lastName"
-                    name="lastName"
+                    id="lastname"
+                    name="lastname"
                     type="text"
-                    value={formData.lastName}
+                    value={formData.lastname}
                     onChange={handleChange}
                     className="appearance-none block w-full px-3 py-3 border border-gray-300 dark:border-[#FFFFFF1A] dark:bg-[#16172C] rounded-[10px] text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
                     placeholder="Last name"
@@ -256,10 +283,18 @@ export default function Signup() {
 
               <div>
                 <button
+                  disabled={loading}
                   type="submit"
-                  className="w-full flex justify-center py-4 px-4 border border-transparent rounded-full text-sm font-medium text-black gradient-bg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                  className="w-full disabled:opacity-80 flex justify-center py-4 px-4 border border-transparent rounded-full text-sm font-medium text-black gradient-bg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                 >
-                  Create Account
+                  {!loading ? (
+                    <span>Create Account</span>
+                  ) : (
+                    <Loader
+                      className="animate-spin h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
               </div>
             </form>

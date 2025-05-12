@@ -61,7 +61,7 @@ export default function RootLayout({
             shadow="0 0 5px #2299DD,0 0 5px #2299DD"
           />
           {children}
-          <Toaster position="top-center" />
+          <Toaster position="bottom-center" />
         </NextThemesProvider>{" "}
       </body>
     </html>
