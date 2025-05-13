@@ -5,38 +5,45 @@ import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useParams, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const id = params?.id as string;
+  const token = searchParams.get("token") as string;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email) {
-      toast.error("Please enter email.");
+    if (!password || !confirmPassword) {
+      toast.error("Please fill in all fields.");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await axios.post(
-        "/api/auth/reset-password",
+      const response = await axios.patch(
+        `/api/auth/reset-password/${id}?token=${token}`,
         {
-          email,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          password: password,
+          confirmPassword: confirmPassword,
+          id,
+          token,
         }
       );
+
       if (response.status === 200) {
-        toast.success("Reset link has been sent to your email!", {
-          icon: "📧",
-        });
+        toast.success("Password reset successfully");
+        router.push("/login");
       }
-    } catch (error) {
-      toast.error("Error: User not found or issue sending email.");
+    } catch (error: any) {
+      console.log("Error resetting password:", error.response);
+      toast.error("An error occurred during the password reset");
     }
     setLoading(false);
   };
@@ -96,18 +103,38 @@ export default function Login() {
                   htmlFor="email"
                   className="block mb-1 text-sm font-medium "
                 >
-                  Email
+                  New Password
                 </label>
                 <div className="mt-1">
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="appearance-none block w-full px-3 py-3 border border-gray-300 dark:border-[#FFFFFF1A] dark:bg-[#16172C] rounded-[10px] text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
-                    placeholder="Enter email"
+                    placeholder="Enter password"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-1 text-sm font-medium "
+                >
+                  Confirm Password
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    autoComplete="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="appearance-none block w-full px-3 py-3 border border-gray-300 dark:border-[#FFFFFF1A] dark:bg-[#16172C] rounded-[10px] text-sm shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm"
+                    placeholder="Enter password"
                   />
                 </div>
               </div>

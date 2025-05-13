@@ -52,6 +52,7 @@ export const authOptions = {
       session.user.username = user.username;
       session.user.image = user.profileImage;
       session.user.id = user._id.toString();
+      session.user.isVerified = user.isVerified;
       return session;
    
     },

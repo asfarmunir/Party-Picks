@@ -12,6 +12,11 @@ export interface User {
   resetToken?: string;
   resetTokenExpiry?: Date;
   phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  dateOfBirth?: Date;
+  isVerified?: boolean;
 }
 
 const UserSchema = new Schema(
@@ -27,6 +32,11 @@ const UserSchema = new Schema(
     resetToken: { type: String, required: false },
     resetTokenExpiry: { type: Date, required: false },
     phone: { type: String, required: false },
+    address: { type: String, required: false },
+    city: { type: String, required: false },
+    state: { type: String, required: false },
+    dateOfBirth: { type: Date, required: false },
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

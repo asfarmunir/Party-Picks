@@ -44,7 +44,6 @@ export async function PATCH(req: NextRequest) {
     await user
       .save();
 
-      // await passwordChanged(user.email, user.firstName);
 
     return NextResponse.json({ message: 'Password reset successfully' }, { status: 200 });
   } catch (error) {

@@ -33,7 +33,7 @@ const Layout = ({
         <div
           className="flex-1 hidden relative md:block  overflow-hidden  h-svh "
           style={{
-            backgroundImage: "url('/images/bg.svg')",
+            backgroundImage: "url('/images/bg.webp')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",

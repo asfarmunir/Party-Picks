@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
 
 
-    const resetLink = `${process.env.APP_URL}/forget-password/${user.id}?token=${resetToken}`;
+    const resetLink = `${process.env.APP_URL}/reset-password/${user.id}?token=${resetToken}`;
     await sendPasswordResetEmail(email, resetLink);
 
     return NextResponse.json(

@@ -56,6 +56,15 @@ export default function Signup() {
     } else if (formData.password.length < 8) {
       toast.error("Password must be at least 8 characters");
       return false;
+    } else if (!/(?=.*[A-Z])/.test(formData.password)) {
+      toast.error("Password must contain at least one uppercase letter");
+      return false;
+    } else if (!/(?=.*[0-9])/.test(formData.password)) {
+      toast.error("Password must contain at least one number");
+      return false;
+    } else if (!/(?=.*[!@#$%^&*])/.test(formData.password)) {
+      toast.error("Password must contain at least one special character");
+      return false;
     }
     if (formData.password !== formData.retypePassword) {
       toast.error("Passwords do not match");
@@ -105,7 +114,7 @@ export default function Signup() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8 bg-[url('/images/bg.svg')] bg-no-repeat bg-center bg-cover md:bg-none">
+      <div className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8 bg-[url('/images/bg.webp')] bg-no-repeat bg-center bg-cover md:bg-none">
         <div className=" mt-auto md:-mt-24 flex md:hidden relative items-center -mb-12 md:mb-0  ">
           <div className=" bg-background hidden  shadow-inner shadow-orange-400/60 absolute -bottom-2 w-full px-4 py-3 rounded-[20px] md:flex items-center justify-center">
             <Image
@@ -237,6 +246,10 @@ export default function Signup() {
                 </div>
               </div>
 
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Password must be at least 8 characters with 1 uppercase, 1
+                number, and 1 special character
+              </p>
               <div>
                 <label
                   htmlFor="zipCode"

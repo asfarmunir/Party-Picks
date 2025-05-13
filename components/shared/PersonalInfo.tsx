@@ -1,12 +1,29 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+
+interface UserData {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+}
 
 const PersonalInfo = () => {
-  const [formData, setFormData] = useState({
+  const { data: session } = useSession();
+  const [formData, setFormData] = useState<UserData>({
     firstName: "",
     lastName: "",
     username: "",
-    email: "Contact@gmail.com",
+    email: session?.user?.email || "",
     phoneNumber: "",
     dateOfBirth: "",
     address: "",
@@ -15,6 +32,43 @@ const PersonalInfo = () => {
     zip: "",
   });
   const [isDirty, setIsDirty] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/user");
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const userData = await response.json();
+
+        setFormData({
+          firstName: userData.firstname || "",
+          lastName: userData.lastname || "",
+          username: userData.username || "",
+          email: userData.email || session?.user?.email || "",
+          phoneNumber: userData.phone || "",
+          dateOfBirth: userData.dateOfBirth || "",
+          address: userData.address || "",
+          city: userData.city || "",
+          state: userData.state || "",
+          zip: userData.zip || "",
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to load user data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (session?.user?.email) {
+      fetchUserData();
+    }
+  }, [session]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -24,12 +78,48 @@ const PersonalInfo = () => {
     setIsDirty(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Save logic would go here
-    setIsDirty(false);
-    alert("Changes saved successfully!");
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user data");
+      }
+
+      const updatedUser = await response.json();
+      toast.success("Profile updated successfully!");
+      setIsDirty(false);
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      toast.error("Failed to update profile");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  if (isLoading && !isDirty) {
+    return (
+      <div className="bg-card p-6 rounded-lg shadow">
+        <h2 className="text-2xl font-semibold mb-2">Personal Information</h2>
+        <div className="animate-pulse space-y-4">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="h-12 bg-gray-200 dark:bg-gray-700 rounded-[10px]"
+            ></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-card p-6 rounded-lg shadow">
@@ -209,14 +299,14 @@ const PersonalInfo = () => {
         <div className="md:col-span-2">
           <button
             type="submit"
-            disabled={!isDirty}
+            disabled={!isDirty || isLoading}
             className={`px-6 py-3.5 mt-4 rounded-full w-full font-medium text-black text-sm ${
-              isDirty
+              isDirty && !isLoading
                 ? "gradient-bg"
                 : "bg-gray-400 dark:bg-background dark:text-gray-600 cursor-not-allowed"
             } transition-colors`}
           >
-            Save Changes
+            {isLoading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>

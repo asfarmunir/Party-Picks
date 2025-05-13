@@ -5,7 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import localFont from "next/font/local";
 import { Anton } from "next/font/google";
-
+import AuthSessionProvider from "@/lib/AuthProvider";
 export const myLocalFont = localFont({
   src: [
     {
@@ -43,26 +43,28 @@ export default function RootLayout({
       <body
         className={`${myLocalFont.variable} ${antons.variable} antialiased`}
       >
-        <NextThemesProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextTopLoader
-            color="orange"
-            initialPosition={0.08}
-            crawlSpeed={200}
-            height={2}
-            showSpinner={false}
-            crawl={true}
-            easing="ease"
-            speed={200}
-            shadow="0 0 5px #2299DD,0 0 5px #2299DD"
-          />
-          {children}
-          <Toaster position="bottom-center" />
-        </NextThemesProvider>{" "}
+        <AuthSessionProvider>
+          <NextThemesProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextTopLoader
+              color="orange"
+              initialPosition={0.08}
+              crawlSpeed={200}
+              height={2}
+              showSpinner={false}
+              crawl={true}
+              easing="ease"
+              speed={200}
+              shadow="0 0 5px #2299DD,0 0 5px #2299DD"
+            />
+            {children}
+            <Toaster position="bottom-center" />
+          </NextThemesProvider>{" "}
+        </AuthSessionProvider>
       </body>
     </html>
   );

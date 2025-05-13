@@ -17,50 +17,8 @@ import PersonalInfo from "./PersonalInfo";
 import PasswordUpate from "./PasswordUpdate";
 import Billing from "./billing";
 import TwoFactorAuth from "./TwoFA";
-const menuItems = [
-  {
-    name: "How to play",
-    img: "/images/howtoplay.svg",
-  },
-  {
-    name: "Refer & Earn",
-    img: "/images/refer.svg",
-  },
-  {
-    name: "Request Withdrawal",
-    img: "/images/withdrawl.svg",
-  },
-  {
-    name: "Verify My ID",
-    img: "/images/verify.svg",
-  },
-  {
-    name: "Policies, Rules and Agreements",
-    img: "/images/policies.svg",
-  },
-];
-const settings = [
-  {
-    name: "Personal Info",
-    img: "/images/personal.svg",
-  },
-  {
-    name: "Password",
-    img: "/images/password.svg",
-  },
-  {
-    name: "Billing",
-    img: "/images/billing.svg",
-  },
-  {
-    name: "2-Factor Authentication",
-    img: "/images/2fa.svg",
-  },
-  {
-    name: "FAQ",
-    img: "/images/faq.svg",
-  },
-];
+import { useSession } from "next-auth/react";
+
 export default function MobileSettingsDrawer(
   {
     link,
@@ -73,6 +31,58 @@ export default function MobileSettingsDrawer(
 ) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("");
+  const { data: session } = useSession();
+  //@ts-ignore
+  const isVerified = session?.user?.isVerified || false;
+
+  const menuItems = [
+    {
+      name: "How to play",
+      img: "/images/howtoplay.svg",
+    },
+    {
+      name: "Refer & Earn",
+      img: "/images/refer.svg",
+    },
+    {
+      name: "Request Withdrawal",
+      img: "/images/withdrawl.svg",
+    },
+    ...(!isVerified
+      ? [
+          {
+            name: "Verify My ID",
+            img: "/images/verify.svg",
+          },
+        ]
+      : []),
+    {
+      name: "Policies, Rules and Agreements",
+      img: "/images/policies.svg",
+    },
+  ];
+  const settings = [
+    {
+      name: "Personal Info",
+      img: "/images/personal.svg",
+    },
+    {
+      name: "Password",
+      img: "/images/password.svg",
+    },
+    {
+      name: "Billing",
+      img: "/images/billing.svg",
+    },
+    // {
+    //   name: "2-Factor Authentication",
+    //   img: "/images/2fa.svg",
+    // },
+    {
+      name: "FAQ",
+      img: "/images/faq.svg",
+    },
+  ];
 
   return (
     <Drawer onOpenChange={(open) => !open && router.push("/")}>

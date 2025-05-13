@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8 bg-[url('/images/bg.svg')] bg-no-repeat bg-center bg-cover md:bg-none">
+      <div className="min-h-screen flex flex-col md:flex-row justify-center md:gap-20 items-center sm:px-6 lg:px-8 bg-[url('/images/bg.webp')] bg-no-repeat bg-center bg-cover md:bg-none">
         <div className=" mt-auto md:-mt-24 flex md:hidden relative items-center -mb-12 md:mb-0  ">
           <Image
             src="/images/player1.svg"

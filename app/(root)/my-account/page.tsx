@@ -9,8 +9,80 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { User } from "@/lib/database/models/user.model";
+import toast from "react-hot-toast";
+import { BsFillPersonCheckFill, BsShieldFillCheck } from "react-icons/bs";
 
 export default function MyAccount() {
+  const { data: session } = useSession();
+  const [formData, setFormData] = useState<User>({
+    firstname: "",
+    lastname: "",
+    username: "",
+    email: session?.user?.email || "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    isVerified: false,
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("/api/user");
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const userData = await response.json();
+
+        setFormData({
+          firstname: userData.firstname || "",
+          lastname: userData.lastname || "",
+          username: userData.username || "",
+          email: userData.email || session?.user?.email || "",
+          phone: userData.phone || "",
+          dateOfBirth: userData.dateOfBirth || "",
+          address: userData.address || "",
+          city: userData.city || "",
+          state: userData.state || "",
+          zip: userData.zip || "",
+          isVerified: userData.isVerified || false,
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        toast.error("Failed to load user data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (session?.user?.email) {
+      fetchUserData();
+    }
+  }, [session]);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-6xl md:bg-card-foreground mt-6 md:mb-6  rounded-[24px] mx-auto p-4 md:p-6">
+        <h2 className="text-2xl font-semibold mb-2">Personal Information</h2>
+        <div className="animate-pulse space-y-4">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="h-12 bg-gray-200 dark:bg-gray-700 rounded-[10px]"
+            ></div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-6xl md:bg-card-foreground mt-6 md:mb-6  rounded-[24px] mx-auto p-4 md:p-6">
       <div className=" w-full flex items-center justify-between mb-6">
@@ -107,17 +179,24 @@ export default function MyAccount() {
 
           {/* Verification Status */}
           <div className="bg-card-foreground md:bg-card dark:bg-yellow-900/20 p-3 2xl:p-6 rounded-[20px] mb-6">
-            <div className="  w-full">
-              <h3 className="font-bold mb-3">Be Prepared Verify Your ID!</h3>
-              <div className="flex flex-col md:flex-row gap-4">
-                <p className="text-sm bg-card md:bg-card-foreground p-3 px-6 rounded-full w-full ">
-                  ID not verified, Verify your ID and unlock all features
-                </p>
-                <button className="text-sm bg-[#BA64141A]  text-[#BA6414] dark:text-[#FF9E42] border border-[#FF9E42]/20 font-semibold text-center p-3 px-6 rounded-full w-full ">
-                  Verify Now!
-                </button>
+            {formData.isVerified ? (
+              <p className="text-sm bg-green-100  inline-flex items-center gap-2 justify-center  text-green-500  border border-green-400 font-semibold text-center p-3.5 px-6 rounded-full w-full ">
+                <BsShieldFillCheck className="text-xl" />
+                Your Account is Verified!
+              </p>
+            ) : (
+              <div className="  w-full">
+                <h3 className="font-bold mb-3">Be Prepared Verify Your ID!</h3>
+                <div className="flex flex-col md:flex-row gap-4">
+                  <p className="text-sm bg-card md:bg-card-foreground p-3 px-6 rounded-full w-full ">
+                    ID not verified, Verify your ID and unlock all features
+                  </p>
+                  <button className="text-sm bg-[#BA64141A]  text-[#BA6414] dark:text-[#FF9E42] border border-[#FF9E42]/20 font-semibold text-center p-3 px-6 rounded-full w-full ">
+                    Verify Now!
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

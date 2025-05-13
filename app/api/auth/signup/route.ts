@@ -16,6 +16,12 @@ export async function POST(req:NextRequest){
             return NextResponse.json({status: 400 , message: "This email is already registered!"});
         }
 
+        const existingUsername = await User.find({username});
+        if(existingUsername.length > 0){
+            return NextResponse.json({status: 400 , message: "This username is already taken!"});
+        }
+        
+
         const salt = await bcryptjs.genSalt(12);
         const hashedPassword = await bcryptjs.hash(password, salt); 
 
