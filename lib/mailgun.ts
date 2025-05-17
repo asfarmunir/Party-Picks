@@ -9,7 +9,7 @@ const mg = mailgun.client({
 });
 
 
-export async function sendPasswordResetEmail(
+export async function sendResetEmail(
   userEmail: string,
   resetLink: string
 ) {
