@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import User from "@/lib/database/models/user.model";
 import { sendResetEmail } from "@/lib/mailgun";
+import { connectToDatabase } from "@/lib/database";
 
 export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json();
-
+    await connectToDatabase();
     // Check if the user exists in the database
     const user = await User.findOne({ email });
 
